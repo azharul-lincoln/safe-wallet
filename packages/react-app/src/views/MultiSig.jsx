@@ -15,9 +15,29 @@ function MultiSig({
   mainnetProvider,
   blockExplorer,
 }) {
+  let contractAddress = "";
+  if (readContracts[contractName]) {
+    contractAddress = readContracts[contractName].address;
+  }
+
   return (
     <div style={{ padding: 32, maxWidth: 750, margin: "auto" }}>
-      <h1>MultiSig</h1>
+      <div style={{ paddingBottom: 40 }}>
+        <div>
+          <Balance address={contractAddress} provider={localProvider} dollarMultiplier={price} fontSize={64} />
+        </div>
+        <div>
+          <QRCode value={contractAddress} size={180} level="H" />
+        </div>
+        <div style={{ paddingTop: 20 }}>
+          <Address
+            address={contractAddress}
+            ensProvider={mainnetProvider}
+            blockExplorer={blockExplorer}
+            fontSize={35}
+          />
+        </div>
+      </div>
     </div>
   );
 }
