@@ -168,7 +168,7 @@ function App(props) {
   ]);
 
   // Name of the contract
-  const contractName = "MetaMultiSigWallet";
+  const contractName = "MultiSigWallet";
 
   const executeTransactionEvents = useEventListener(
     readContracts,
@@ -179,7 +179,7 @@ function App(props) {
   );
 
   // keeping track of the events:
-  const ownerEvents = useEventListener(readContracts, contractName, "Signer", localProvider, 1);
+  const ownerEvents = useEventListener(readContracts, contractName, "Owner", localProvider, 1);
   if (DEBUG) console.log("📟 ownerEvents:", ownerEvents);
 
   // keep track of a variable from the contract in the local React state:
