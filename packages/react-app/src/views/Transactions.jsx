@@ -127,8 +127,9 @@ export default function Transactions({
         dataSource={transactions}
         renderItem={item => {
           const hasSigned = item.signers.indexOf(address) >= 0;
-          const hasEnoughSignatures = item.signatures.length <= signaturesRequired.toNumber();
-
+          const hasEnoughSignatures = item.signatures.length >= signaturesRequired.toNumber();
+          console.log("sign required", item.signatures.length, signaturesRequired.toNumber());
+          console.log("hasEnoughSignatures", hasEnoughSignatures);
           return (
             <TransactionList
               parsedTxnData={item.parsedTxnData}
@@ -180,8 +181,10 @@ export default function Transactions({
                         item.data,
                         finalSigList,
                       ),
+                      resp => {
+                        if (!resp.error) updateTransaction(newHash);
+                      },
                     );
-                    updateTransaction(newHash);
                   }
                 }}
                 type={hasEnoughSignatures ? "primary" : "secondary"}
