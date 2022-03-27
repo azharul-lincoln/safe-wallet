@@ -25,7 +25,7 @@ import {
   FaucetHint,
   NetworkSwitch,
 } from "./components";
-import { NETWORKS, ALCHEMY_KEY } from "./constants";
+import { NETWORKS, ALCHEMY_KEY, BACKEND_URL } from "./constants";
 import externalContracts from "./contracts/external_contracts";
 // contracts
 import deployedContracts from "./contracts/hardhat_contracts.json";
@@ -81,6 +81,7 @@ function App(props) {
   const [selectedNetwork, setSelectedNetwork] = useState(networkOptions[0]);
   const location = useLocation();
 
+  // const targetNetwork = NETWORKS[selectedNetwork];
   const targetNetwork = NETWORKS[selectedNetwork];
 
   // 🔭 block explorer URL
@@ -184,10 +185,12 @@ function App(props) {
 
   // keep track of a variable from the contract in the local React state:
   const nonce = useContractReader(readContracts, contractName, "nonce");
-  if (DEBUG) console.log("# nonce:", nonce);
+  if (DEBUG) nonce && console.log("# nonce:", ethers.utils.formatEther(nonce));
 
   const signaturesRequired = useContractReader(readContracts, contractName, "signaturesRequired");
   if (DEBUG) console.log("✳️ signaturesRequired:", signaturesRequired);
+
+  const multiSigContractAddress = readContracts[contractName]?.address;
 
   /*
   const addressFromENS = useResolveName(mainnetProvider, "austingriffith.eth");
@@ -327,33 +330,36 @@ function App(props) {
         </Route>
         <Route path="/create">
           <CreateTransaction
+            poolServerUrl={BACKEND_URL}
             contractName={contractName}
-            address={address}
-            userProvider={userSigner}
             mainnetProvider={mainnetProvider}
             localProvider={localProvider}
-            yourLocalBalance={yourLocalBalance}
             price={price}
-            tx={tx}
-            writeContracts={writeContracts}
             readContracts={readContracts}
+            userSigner={userSigner}
+            blockExplorer={blockExplorer}
+            nonce={nonce}
+            signaturesRequired={signaturesRequired}
+            multiSigContractAddress={multiSigContractAddress}
           />
         </Route>
         <Route path="/pool">
           <Transactions
+            poolServerUrl={BACKEND_URL}
             contractName={contractName}
+            signaturesRequired={signaturesRequired}
             address={address}
-            userProvider={userSigner}
+            multiSigContractAddress={multiSigContractAddress}
+            selectedChainId={selectedChainId}
+            nonce={nonce}
             mainnetProvider={mainnetProvider}
             localProvider={localProvider}
-            yourLocalBalance={yourLocalBalance}
             price={price}
             tx={tx}
             writeContracts={writeContracts}
             readContracts={readContracts}
             blockExplorer={blockExplorer}
-            nonce={nonce}
-            signaturesRequired={signaturesRequired}
+            userSigner={userSigner}
           />
         </Route>
 
