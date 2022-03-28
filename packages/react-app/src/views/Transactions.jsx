@@ -128,8 +128,6 @@ export default function Transactions({
         renderItem={item => {
           const hasSigned = item.signers.indexOf(address) >= 0;
           const hasEnoughSignatures = item.signatures.length >= signaturesRequired.toNumber();
-          console.log("sign required", item.signatures.length, signaturesRequired.toNumber());
-          console.log("hasEnoughSignatures", hasEnoughSignatures);
           return (
             <TransactionList
               parsedTxnData={item.parsedTxnData}
@@ -138,6 +136,7 @@ export default function Transactions({
               price={price}
               transactionHash={item.hash}
               addressedTo={item.to}
+              addressFrom={item.address}
               nonce={item.nonce}
               value={item.amount}
             >

@@ -3,7 +3,17 @@ import { Modal } from "antd";
 import Address from "./Address";
 import Balance from "./Balance";
 import { ethers } from "ethers";
-const TransactionDetailsModal = function ({ visible, handleOk, mainnetProvider, price, txnInfo = null }) {
+import { parseEther } from "@ethersproject/units";
+const TransactionDetailsModal = function ({
+  addressFrom,
+  addressedTo,
+  value,
+  visible,
+  handleOk,
+  mainnetProvider,
+  price,
+  txnInfo = null,
+}) {
   return (
     <Modal
       title="Transaction Details"
@@ -15,7 +25,7 @@ const TransactionDetailsModal = function ({ visible, handleOk, mainnetProvider, 
       closable
       maskClosable
     >
-      {txnInfo && (
+      {txnInfo ? (
         <div>
           <p>
             <b>Event Name :</b> {txnInfo.functionFragment.name}
@@ -61,6 +71,27 @@ const TransactionDetailsModal = function ({ visible, handleOk, mainnetProvider, 
           <p>
             <b>SigHash : &nbsp;</b>
             {txnInfo.sighash}
+          </p>
+        </div>
+      ) : (
+        <div>
+          <p>
+            <b>Event Name :</b> Transfer Fund
+          </p>
+          <p>
+            <b>From :</b> {addressFrom}
+          </p>
+
+          <p>
+            <b>To :</b> {addressedTo}
+          </p>
+
+          <p>
+            <b>Amount :</b>
+            <Balance
+              balance={ethers.BigNumber.isBigNumber(value) ? value : parseEther("" + parseFloat(value).toFixed(12))}
+              dollarMultiplier={price}
+            />
           </p>
         </div>
       )}

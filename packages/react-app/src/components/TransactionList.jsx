@@ -12,6 +12,7 @@ const TransactionList = function ({
   blockExplorer,
   price,
   transactionHash,
+  addressFrom,
   addressedTo,
   nonce,
   value,
@@ -33,6 +34,9 @@ const TransactionList = function ({
   return (
     <>
       <TransactionDetailsModal
+        addressFrom={addressFrom}
+        addressedTo={addressedTo}
+        value={value}
         visible={isModalVisible}
         txnInfo={parsedTxnData}
         handleOk={handleOk}
