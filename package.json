@@ -53,7 +53,8 @@
     "theme": "yarn workspace @scaffold-eth/react-app theme",
     "watch-theme": "yarn workspace @scaffold-eth/react-app watch",
     "postinstall": "husky install",
-    "backend": "cd packages/backend && node index"
+    "backend": "cd packages/backend && node index",
+    "hcoverage": "yarn workspace @scaffold-eth/hardhat coverage"
   },
   "workspaces": {
     "packages": [
